@@ -31,3 +31,13 @@ cp ide /usr/local/bin
 cd /some/project
 ide
 ```
+
+### Navigation
+
+- These are the few I use all the time there are others look at the `init.vim` file
+
+| Keys      | Command        |
+| ----      | -------        |
+| gd        | Go to def      |
+| gcc       | Toggle comment |
+| Shift + K | Hover          |
