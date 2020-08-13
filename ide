@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+_DIR=$(dirname "$(readlink -f "$0")")
+
+docker run -v "$_DIR":/ide:z -it casonadams/vi nvim "/ide/${1}"

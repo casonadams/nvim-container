@@ -1,0 +1,19 @@
+{
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck"
+  },
+  "diagnostic-languageserver.formatFiletypes": {
+    "sh": "shfmt"
+  },
+  "diagnostic-languageserver.formatters": {
+    "shfmt": {
+      "command": "shfmt",
+      "args": ["-i", "2", "-bn", "-ci", "-sr"]
+    }
+  },
+  "python.linting.pep8Enabled": true,
+  "python.linting.enabled": true,
+  "python.formatting.provider": "black",
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
+  "rust-analyzer.serverPath": "/usr/bin/rust-analyzer"
+}
