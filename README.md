@@ -4,6 +4,9 @@ neovim in a container with coc all setup to work with rust and python.
 
 ## Usage
 
+- This container uses powerline fonts make sure to set your terminal to use one
+- Recommened powerline font [JetBrains mono](https://www.jetbrains.com/lp/mono/)
+
 ### Build
 
 ```bash
