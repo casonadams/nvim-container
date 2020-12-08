@@ -1,35 +1,18 @@
-FROM fedora:32
+FROM registry.fedoraproject.org/fedora-minimal:33
 
-RUN curl -sSL \
-  --location https://dl.yarnpkg.com/rpm/yarn.repo \
-  | tee /etc/yum.repos.d/yarn.repo
-
-RUN dnf install -y \
- ShellCheck \
- fd-find \
- # gcc \
- git \
- # make \
- neovim \
- nodejs \
- python-pip \
- ripgrep \
- yarn \
- && dnf clean all \
+RUN microdnf install -y \
+    git \
+    python3-neovim \
+ && microdnf clean all \
  ;
 
-COPY init.vim /root/.config/nvim/
-COPY coc-settings.json /root/.config/nvim/
+ENV CACHE_BREAK=7
 
-RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-RUN nvim +'PlugInstall' +qa --headless
-
-RUN pip install --no-cache \
-    black \
-    jedi \
-    pep8 \
-    pylint \
-    ;
+RUN curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage \
+ && chmod u+x nvim.appimage \
+ && ./nvim.appimage --appimage-extract \
+ && rm nvim.appimage \
+ ;
 
 ENV RUSTUP_HOME=/root/rustup \
     CARGO_HOME=/root/cargo \
@@ -45,7 +28,6 @@ RUN curl -f -L https://static.rust-lang.org/rustup.sh -O \
  && rustup component add \
     rust-src \
     rustfmt \
-    clippy \
  && rm rustup.sh \
  ;
 
@@ -55,4 +37,10 @@ RUN curl -LO https://github.com/rust-analyzer/rust-analyzer/releases/download/ni
  && chmod +x /usr/bin/rust-analyzer \
  ;
 
-RUN echo "alias vi='nvim'" >> /root/.bashrc;
+RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+COPY init5.vim /root/.config/nvim/init.vim
+RUN mkdir -p /root/.config/nvim/lua/lspconfig
+COPY rust_analyzer.lua /root/.config/nvim/lua/lspconfig/rust_analyzer.lua
+
+RUN echo "alias vi='/squashfs-root/usr/bin/nvim'" >> /root/.bashrc;
+RUN ./squashfs-root/usr/bin/nvim +PlugInstall +UpdateRemotePlugins +qa --headless 2> /dev/null
