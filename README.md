@@ -20,19 +20,25 @@ docker run -v $(pwd):/p:z -it casonadams/vi bash
 
 ### Setup to run from anywhere
 
-TODO: Need to get this figured out for now
-
 ```bash
 cp ide /usr/local/bin
 ```
 
 ```bash
 cd /some/project
-ide
+ide <file>
 ```
 
 ### Inside container
 
+Install wanted coc-extentions
+
+```bash
+CocInstall marketplace
+CocList marketplace
+
+extentions are saved to `~/.nvim-container`
+```
 
 ### Navigation
 
