@@ -8,12 +8,26 @@
   "diagnostic-languageserver.formatters": {
     "shfmt": {
       "command": "shfmt",
-      "args": ["-i", "2", "-bn", "-ci", "-sr"]
+      "args": [
+        "-i",
+        "2",
+        "-bn",
+        "-ci",
+        "-sr"
+      ]
     }
   },
-  "python.linting.pep8Enabled": true,
-  "python.linting.enabled": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "*"
+  ],
+  "diagnostic.enableMessage": "never",
+  "diagnostic.hintSign": "H",
+  "diagnostic.infoSign": "I",
+  "diagnostic.warningSign": "W",
+  "diagnostic.errorSign": "E",
+  "diagnostic.messageTarget": "float",
+  "diagnostic.virtualText": false,
   "python.formatting.provider": "black",
-  "coc.preferences.formatOnSaveFiletypes": ["*"],
-  "rust-analyzer.serverPath": "/usr/bin/rust-analyzer"
+  "rust-analyzer.procMacro.enable": true,
+  "suggest.noselect": false
 }

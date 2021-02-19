@@ -1,3 +1,33 @@
 #!/usr/bin/env bash
 
-docker run -v "$PWD":/ide:z --workdir /ide -it casonadams/vi nvim "/ide/${1}"
+SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MOUNT_TARGET="${SOURCE_DIR}/target"
+INTERACTIVE="-i"
+NVIM_CACHE_DIR="$HOME/.nvim-container"
+
+if ! [[ -d "${MOUNT_TARGET}" ]]; then
+  mkdir "${MOUNT_TARGET}"
+fi
+
+if ! [[ -d "${NVIM_CACHE_DIR}" ]]; then
+  mkdir -p "${NVIM_CACHE_DIR}"
+fi
+
+# Make absolute
+MOUNT_TARGET="$(cd ${MOUNT_TARGET} && pwd)"
+
+# Set docker shell interactive if stdin is open
+if [[ -t 0 ]] && [[ "x${INTERACTIVE}" != "x" ]]; then
+  INTERACTIVE="${INTERACTIVE} --tty"
+fi
+
+docker run \
+  --rm \
+  -v "$PWD":/ide:z \
+  -v ~/.nvim-container/coc:/root/.config/coc:z \
+  -v ~/.nvim-container/backups:/root/.config/nvim/backups:z \
+  -v ${MOUNT_TARGET}:/target:delegated \
+  --workdir /ide \
+  ${INTERACTIVE} \
+  casonadams/vi \
+  vi "/ide/${1}"
