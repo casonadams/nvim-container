@@ -2,6 +2,7 @@ FROM registry.fedoraproject.org/fedora-minimal:33
 
 RUN microdnf install -y \
     ShellCheck \
+    bat \
     fd-find \
     fzf \
     git \
